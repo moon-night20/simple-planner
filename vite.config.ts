@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
 
   return {
-    base: '/simple-planner/', // ⭐ ADD THIS LINE
+    base: '/simple-planner/',
 
     plugins: [react(), tailwindcss()],
 
