@@ -68,7 +68,7 @@ export default function Home() {
     <div className="space-y-12">
       <header className="flex justify-between items-center mb-8">
         <div>
-          <h2 className="text-3xl font-bold text-slate-800">Assalamu Alaikum, User</h2>
+          <h2 className="text-3xl font-bold text-slate-800">Assalamu Alaikum</h2>
           <p className="text-slate-500 font-medium">{format(new Date(), 'EEEE, d MMMM yyyy')}</p>
         </div>
         <div className="flex gap-4">

@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { Home, Moon, BookOpen, Heart, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/src/lib/utils';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import { motion, AnimatePresence } from 'motion/react';
 
 const navItems = [
@@ -9,6 +10,7 @@ const navItems = [
   { path: '/islamic', icon: Moon, label: 'Spiritual', activeColor: 'text-emerald-700', bgColor: 'bg-emerald-50' },
   { path: '/study', icon: BookOpen, label: 'Study', activeColor: 'text-blue-700', bgColor: 'bg-blue-50' },
   { path: '/personality', icon: Heart, label: 'Growth', activeColor: 'text-rose-700', bgColor: 'bg-rose-50' },
+  { path: '/login', icon: Moon, label: 'Profile', activeColor: 'text-indigo-700', bgColor: 'bg-indigo-50' },
 ];
 
 export default function Navigation() {
@@ -41,13 +43,14 @@ export default function Navigation() {
               isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
             )}
           >
-            <div className="mb-10 hidden md:flex items-center gap-3">
+            <div className="mb-6 hidden md:flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-400 flex items-center justify-center text-white shadow-lg shadow-indigo-100">
                 <Moon size={20} />
               </div>
-              <h1 className="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-500">
-                Simple Planner
-              </h1>
+              <div>
+                <h1 className="text-lg font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-500">Simple Planner</h1>
+                <UserBadge />
+              </div>
             </div>
 
             <div className="flex-1 space-y-2">
@@ -88,4 +91,14 @@ export default function Navigation() {
       )}
     </>
   );
+}
+
+function UserBadge() {
+  const [name] = useLocalStorage<string | null>('user:name', null);
+
+  if (!name) {
+    return <div className="text-xs text-indigo-600 font-medium">Not signed in</div>;
+  }
+
+  return <div className="text-sm font-semibold text-slate-700">Hi, {name.split(' ')[0]}</div>;
 }
