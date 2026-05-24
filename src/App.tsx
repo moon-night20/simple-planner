@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import React, { useState } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
@@ -15,6 +16,16 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 
 export default function App() {
   const [name] = useLocalStorage<string | null>('user:name', null);
+  // Track session authentication separately so the app always starts at the login
+  // screen each new browser session. This uses sessionStorage and is reset when
+  // the browser/tab is closed.
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem('user:auth') === 'true';
+    } catch (e) {
+      return false;
+    }
+  });
 
   // Wrapper component used on protected routes to ensure Layout receives nested pages
   function LayoutWrapper() {
@@ -28,7 +39,7 @@ export default function App() {
   // Protect routes and remember where the user was trying to go
   function RequireAuth() {
     const location = useLocation();
-    if (!name) {
+    if (!isAuthenticated) {
       return <Navigate to="/login" state={{ from: location }} replace />;
     }
     return <Outlet />;
@@ -38,7 +49,13 @@ export default function App() {
     <Router>
       <Routes>
        
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={<Login onLogin={() => {
+              setIsAuthenticated(true);
+              try { sessionStorage.setItem('user:auth', 'true'); } catch (e) {}
+            }} />}
+          />
         {/* Protected routes */}
         <Route element={<RequireAuth /> }>
           <Route element={<LayoutWrapper /> }>
@@ -51,7 +68,7 @@ export default function App() {
         </Route>
 
         {/* Fallback */}
-        <Route path="*" element={<Navigate to={name ? '/' : '/login'} replace />} />
+        <Route path="*" element={<Navigate to={isAuthenticated ? '/' : '/login'} replace />} />
       </Routes>
     </Router>
   );

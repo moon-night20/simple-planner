@@ -3,7 +3,11 @@ import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-export default function Login() {
+type Props = {
+  onLogin?: () => void;
+};
+
+export default function Login({ onLogin }: Props) {
   const [name, setName] = useState('');
   const [storedName, setStoredName] = useLocalStorage<string | null>('user:name', null);
   const navigate = useNavigate();
@@ -16,6 +20,9 @@ export default function Login() {
     e.preventDefault();
     if (name.trim().length === 0) return;
     setStoredName(name.trim());
+    // Mark session as authenticated and notify parent
+    try { sessionStorage.setItem('user:auth', 'true'); } catch (e) {}
+    if (onLogin) onLogin();
     // Always navigate to home after login
     navigate('/');
   }
