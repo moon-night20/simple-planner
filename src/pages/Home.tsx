@@ -65,7 +65,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-12 container">
       <header className="flex justify-between items-center mb-8">
         <div>
           <h2 className="text-3xl font-bold text-slate-800">Assalamu Alaikum</h2>
@@ -82,18 +82,18 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Dashboard Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {/* Dashboard (stacked column) */}
+      <div className="flex flex-col gap-8">
         {modules.map((module, idx) => (
-          <Link key={module.id} to={module.path} className="group">
+          <Link key={module.id} to={module.path} className="group w-full">
             <motion.section 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className={cn(
-                "h-full p-6 p-8 rounded-[2rem] border shadow-xl flex flex-col transition-all duration-300 group-hover:scale-[1.02] active:scale-[0.98]",
-                module.glass
-              )}
+                className={cn(
+                  "card w-full h-full p-6 p-8 rounded-[2rem] shadow-xl flex flex-col transition-all duration-300 group-hover:scale-[1.02] active:scale-[0.98]",
+                  module.glass
+                )}
             >
               <div className="flex justify-between items-center mb-6">
                 <h3 className={cn("font-bold flex items-center gap-2", module.text)}>
@@ -129,8 +129,8 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Bottom Stats Bar */}
-      <div className="bg-white/40 backdrop-blur-xl border border-white/60 p-6 rounded-[2.5rem] flex flex-col md:flex-row justify-between items-center gap-6 shadow-xl shadow-slate-900/5">
+  {/* Bottom Stats Bar (full width stacked) */}
+  <div className="card flex flex-col justify-between items-center gap-6 w-full">
         <div className="flex flex-wrap gap-8">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-xl shadow-sm border border-indigo-100/50">🚀</div>
@@ -147,14 +147,14 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <Link to="/study" className="px-8 py-3 bg-slate-900 text-white font-bold rounded-2xl shadow-xl shadow-slate-900/20 hover:bg-slate-800 transition-all hover:scale-105 active:scale-95">
+        <Link to="/study" className="accent-btn">
           + New Entry
         </Link>
       </div>
 
-      {/* Insights Section */}
-      <section className="grid md:grid-cols-2 gap-8">
-        <div className="bg-white/30 backdrop-blur p-8 rounded-[2.5rem] border border-white/60 shadow-sm relative overflow-hidden group">
+      {/* Insights Section (stacked) */}
+      <section className="flex flex-col gap-8 w-full">
+        <div className="card relative overflow-hidden group w-full">
           <div className="relative z-10">
             <h4 className="text-[10px] font-bold text-indigo-500 uppercase tracking-[0.2em] mb-4">Productivity Hack</h4>
             <p className="text-lg font-serif italic text-slate-700 leading-relaxed">
@@ -166,7 +166,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden">
+  <div className="card bg-gradient-to-br from-slate-900 to-slate-800 p-8 text-white shadow-2xl relative overflow-hidden w-full">
           <div className="relative z-10">
             <div className="flex items-center gap-2 text-slate-400 mb-6">
               <Star size={14} className="text-amber-400" fill="currentColor" />

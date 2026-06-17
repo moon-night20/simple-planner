@@ -8,6 +8,7 @@
 }
 
 @layer base {
+  
   body {
     @apply font-sans bg-gradient-to-br from-[#fdfbfb] to-[#ebedee] min-h-screen text-slate-800;
   }
@@ -27,4 +28,21 @@
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-300;
+}
+
+/* Reusable design tokens */
+.container {
+  @apply max-w-7xl mx-auto px-6 md:px-12;
+}
+
+.card {
+  @apply bg-white/60 backdrop-blur p-6 rounded-2xl border border-white/60 shadow-md;
+}
+
+.accent-btn {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-indigo-600 text-white font-bold shadow hover:bg-indigo-500 active:scale-95 transition;
+}
+
+.muted {
+  @apply text-slate-500;
 }
